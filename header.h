@@ -10,4 +10,14 @@ void lsmain(vector<string>v);
 string pwd();
 void search(vector<string>v);
 void echo(vector<string>v);
+void cd(vector<string>v);
+class Directory{
+    public:
+    string current=pwd();
+    string prev=pwd();
+    string home=pwd();
+};
+
+extern Directory direc;
+
 #endif

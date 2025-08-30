@@ -7,7 +7,7 @@
 #include<string.h>
 #include<vector>
 
-
+Directory direc;
 using namespace std;
 
 // void echo(vector<string>v){
@@ -60,7 +60,10 @@ vector<string> tokenizeCommands(string input){
 
 int main(){
     while(1){
-        cout<<"\033[32m"<<username()<<"@"<<hostname()<<":~"<<"$ "<<"\033[0m";
+        cout<<"\033[32m"<<username()<<"@"<<hostname()<<":";
+        if(direc.home==pwd())cout<<"~";
+        else cout<<pwd();
+        cout<<"$ "<<"\033[0m";
         string input;
         getline(cin,input);
         vector<string>c=tokenizeCommands(input);
@@ -75,7 +78,7 @@ int main(){
             if(i[0]=="echo"){
                 echo(i);
             }else if(i[0]=="cd"){
-
+                cd(i);
             }else if(i[0]=="pwd"){
                 cout<<pwd()<<endl;
             }else if(i[0]=="ls"){
