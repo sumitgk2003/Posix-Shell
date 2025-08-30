@@ -55,7 +55,7 @@ void lsa(string path){
         cout<<path<<endl;
         return;
     }
-    if(path!=pwd()){
+    if(path!=pwd()&&path[0]!='/'){
         path=pwd()+"/"+path;
     }
     DIR* directory=opendir(path.c_str());
@@ -84,7 +84,7 @@ void lsl(string path){
         cout<<endl;
         return;
     }
-    if(path!=pwd()){
+    if(path!=pwd()&&path[0]!='/'){
         path=pwd()+"/"+path;
     }
     DIR* directory=opendir(path.c_str());
@@ -123,7 +123,7 @@ void lsal(string path){
         cout<<endl;
         return;
     }
-    if(path!=pwd()){
+    if(path!=pwd()&&path[0]!='/'){
         path=pwd()+"/"+path;
     }
     DIR* directory=opendir(path.c_str());
@@ -159,7 +159,7 @@ void ls(string path){
         cout<<path<<endl;
         return;
     }
-    if(path!=pwd()){
+    if(path!=pwd()&&path[0]!='/'){
         path=pwd()+"/"+path;
     }
     //cout<<"Path is "<<path<<endl;
@@ -188,8 +188,8 @@ void lsmain(vector<string>v){
         else if(v[i]=="-al"||v[i]=="-la"){
             a=true;
             l=true;
-        }else if(v[i]=="."){
-            files.push_back(pwd());
+        }else if(v[i]=="~"){
+            files.push_back("/home/sumit/Desktop/AOS-2");
         }else{
             files.push_back(v[i]);
         }

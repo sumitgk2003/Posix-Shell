@@ -10,11 +10,11 @@
 
 using namespace std;
 
-void echo(vector<string>v){
-    for(int i=1;i<v.size();i++){
-        cout<<v[i]<<" ";
-    }cout<<endl;
-}
+// void echo(vector<string>v){
+//     for(int i=1;i<v.size();i++){
+//         cout<<v[i]<<" ";
+//     }cout<<endl;
+// }
 
 // string pwd(){
 //     char cwd[1000];
@@ -60,7 +60,7 @@ vector<string> tokenizeCommands(string input){
 
 int main(){
     while(1){
-        cout<<username()<<"@"<<hostname()<<":~"<<"$ ";
+        cout<<"\033[32m"<<username()<<"@"<<hostname()<<":~"<<"$ "<<"\033[0m";
         string input;
         getline(cin,input);
         vector<string>c=tokenizeCommands(input);
@@ -80,6 +80,8 @@ int main(){
                 cout<<pwd()<<endl;
             }else if(i[0]=="ls"){
                 lsmain(i);
+            }else if(i[0]=="search"){
+                search(i);
             }
         }
         
