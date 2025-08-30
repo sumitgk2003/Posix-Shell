@@ -19,6 +19,7 @@ void systemCommand(vector<string>v){
     if(pid==0){
         execvp(command[0],command);
         perror("execvp failed");
+        exit(1);
     }
     int status;
     if(wait==true){
@@ -26,5 +27,4 @@ void systemCommand(vector<string>v){
     }else{
         cout<<pid<<endl;
     }
-    
 }

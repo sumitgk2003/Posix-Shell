@@ -64,18 +64,28 @@ int main(){
         if(direc.home==pwd())cout<<"~";
         else cout<<pwd();
         cout<<"$ "<<"\033[0m";
-        string input;
+        string input="";
+        //cout<<"fkjsdh";
         getline(cin,input);
+        size_t pos=input.find_first_not_of(" \t");
+        if (pos==string::npos) continue;
+        writeHistory(input);
+        //if(input=="exit")break;
+        //cout<<"fewlk23232";
         vector<string>c=tokenizeCommands(input);
         vector<vector<string>>commands;
+        //cout<<"fewlk";
         for(auto i:c){
             vector<string>command=tokenizeTokens(i);
             commands.push_back(command);
         }
-        if(input=="exit")break;
-
-        for(auto i:commands){
-            if(i[0]=="echo"){
+        //cout<<"dfd";
+        bool exit=false;
+        for(const auto &i:commands){
+            if(i[0]=="exit"){
+                exit=true;
+                break;
+            }else if(i[0]=="echo"){
                 echo(i);
             }else if(i[0]=="cd"){
                 cd(i);
@@ -85,10 +95,13 @@ int main(){
                 lsmain(i);
             }else if(i[0]=="search"){
                 search(i);
+            }else if(i[0]=="history"){
+                historymain(i);
             }else{
                 systemCommand(i);
             }
         }
+        if(exit)break;
         
     }
 }

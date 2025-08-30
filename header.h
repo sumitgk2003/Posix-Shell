@@ -19,5 +19,7 @@ class Directory{
 };
 extern Directory direc;
 void systemCommand(vector<string>v);
+void historymain(vector<string>v);
+void writeHistory(string s);
 
 #endif
