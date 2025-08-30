@@ -85,6 +85,8 @@ int main(){
                 lsmain(i);
             }else if(i[0]=="search"){
                 search(i);
+            }else{
+                systemCommand(i);
             }
         }
         

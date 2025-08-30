@@ -17,7 +17,7 @@ class Directory{
     string prev=pwd();
     string home=pwd();
 };
-
 extern Directory direc;
+void systemCommand(vector<string>v);
 
 #endif
