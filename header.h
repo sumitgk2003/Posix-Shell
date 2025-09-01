@@ -21,5 +21,5 @@ extern Directory direc;
 void systemCommand(vector<string>v);
 void historymain(vector<string>v);
 void writeHistory(string s);
-
+void ioRedirection(vector<string>v);
 #endif

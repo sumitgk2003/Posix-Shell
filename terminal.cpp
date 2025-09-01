@@ -82,6 +82,15 @@ int main(){
         //cout<<"dfd";
         bool exit=false;
         for(const auto &i:commands){
+            bool io=false;
+            for(auto j:i){
+                if(j=="<"||j==">"||j==">>"){
+                    ioRedirection(i);
+                    io=true;
+                    break;
+                }
+            }
+            if(io==true)continue;
             if(i[0]=="exit"){
                 exit=true;
                 break;
