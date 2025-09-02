@@ -6,7 +6,8 @@
 #include<pwd.h>
 #include<string.h>
 #include<vector>
-
+#include<readline/readline.h>
+#include<readline/history.h>
 Directory direc;
 using namespace std;
 
@@ -59,17 +60,22 @@ vector<string> tokenizeCommands(string input){
 
 
 int main(){
+    read_history(".hist");
     while(1){
-        cout<<"\033[32m"<<username()<<"@"<<hostname()<<":";
-        if(direc.home==pwd())cout<<"~";
-        else cout<<pwd();
-        cout<<"$ "<<"\033[0m";
-        string input="";
+        string user="\033[32m"+username()+"@"+hostname()+":";
+        //cout<<"\033[32m"<<username()<<"@"<<hostname()<<":";
+        if(direc.home==pwd())user+="~";
+        else user+=pwd();
+        user+="$ \033[0m";
+        //string input="";
         //cout<<"fkjsdh";
-        getline(cin,input);
+        char* input_cstr = readline(user.c_str()); 
+        string input(input_cstr);
+        //getline(cin,input);
         size_t pos=input.find_first_not_of(" \t");
         if (pos==string::npos) continue;
         writeHistory(input);
+        add_history(input_cstr);
         //if(input=="exit")break;
         //cout<<"fewlk23232";
         vector<string>c=tokenizeCommands(input);
@@ -83,6 +89,15 @@ int main(){
         bool exit=false;
         for(const auto &i:commands){
             bool io=false;
+            bool pipe=false;
+            for(auto j:i){
+                if(j=="|"){
+                    pipeline(i);
+                    pipe=true;
+                    break;
+                }
+            }
+            if(pipe==true)continue;
             for(auto j:i){
                 if(j=="<"||j==">"||j==">>"){
                     ioRedirection(i);
@@ -106,11 +121,16 @@ int main(){
                 search(i);
             }else if(i[0]=="history"){
                 historymain(i);
+            }else if(i[0]=="pinfo"){
+                pinfo(i);
             }else{
                 systemCommand(i);
             }
         }
-        if(exit)break;
+        if(exit){
+            write_history(".hist");
+            break;
+        }
         
     }
 }

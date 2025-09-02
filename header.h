@@ -22,4 +22,6 @@ void systemCommand(vector<string>v);
 void historymain(vector<string>v);
 void writeHistory(string s);
 void ioRedirection(vector<string>v);
+void pipeline(vector<string>v);
+void pinfo(vector<string>v);
 #endif

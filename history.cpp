@@ -6,7 +6,8 @@ using namespace std;
  
 void printHistory(long long number){
     vector<string>v;
-    FILE *history=fopen("history.txt","r");
+    string path=direc.home+"/history.txt";
+    FILE *history=fopen(path.c_str(),"r");
     if(!history){
         perror("Error in opening history");
     }
