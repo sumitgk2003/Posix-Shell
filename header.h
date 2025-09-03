@@ -24,4 +24,6 @@ void writeHistory(string s);
 void ioRedirection(vector<string>v);
 void pipeline(vector<string>v);
 void pinfo(vector<string>v);
+vector<string> tokenizeTokens(string s);
+
 #endif
