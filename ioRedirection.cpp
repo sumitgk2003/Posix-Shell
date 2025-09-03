@@ -3,7 +3,6 @@
 #include<sys/wait.h>
 #include<vector>
 #include<fcntl.h>
-#include<unistd.h>
 using namespace std;
 
 void ioRedirection(vector<string>v){
@@ -12,25 +11,34 @@ void ioRedirection(vector<string>v){
     bool append=false;
     string inputFile;
     string outputFile;
-    for(int i=0;i<v.size();i++){
+    int i=0;
+    while(1){
+        if(i>=v.size()-1)break;
         if(v[i]=="<"&&i!=v.size()-1){
             inputFile=v[i+1];
             input=true;
             v.erase(v.begin()+i);
-            v.erase(v.begin()+i+1);
+            v.erase(v.begin()+i);
+            i--;
         }else if(v[i]==">"&&i!=v.size()-1){
             outputFile=v[i+1];
             output=true;
             v.erase(v.begin()+i);
-            v.erase(v.begin()+i+1);
+            v.erase(v.begin()+i);
+            i--;
         }else if(v[i]==">>"&&i!=v.size()-1){
             outputFile=v[i+1];
             output=true;
             append=true;
             v.erase(v.begin()+i);
-            v.erase(v.begin()+i+1);
+            v.erase(v.begin()+i);
+            i--;
         }
+        i++;
     }
+    // for(int i=0;i<v.size();i++){
+    //     cout<<v[i]<<" ";
+    // }cout<<endl;
     char* command[v.size()+1];
     for(int i=0;i<v.size();i++){
         //if(v[i]==">"||v[i]==">>"||v[i]=="<")continue;
@@ -69,8 +77,6 @@ void ioRedirection(vector<string>v){
             dup2(out,STDOUT_FILENO);
             close(out);
         }
-        // close(in);
-        // close(out);
         execvp(command[0],command);
         perror("execvp failed");
         exit(1);
