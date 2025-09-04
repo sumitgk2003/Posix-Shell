@@ -17,13 +17,18 @@ void systemCommand(vector<string>v){
     command[v.size()]=NULL;
     pid_t pid=fork();
     if(pid==0){
+        setpgid(0,0);
         execvp(command[0],command);
         perror("execvp failed");
         exit(1);
     }
+    setpgid(pid, pid);
+    foreground_pid=pid;
     int status;
     if(wait==true){
-        waitpid(pid,&status,0);
+        //waitpid(pid,&status,0);
+        waitpid(pid,&status,WUNTRACED);
+        foreground_pid=-1;
     }else{
         cout<<pid<<endl;
     }

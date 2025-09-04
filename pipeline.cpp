@@ -27,8 +27,12 @@ void pipeline(vector<string>v){
     for(int i=0;i<n-1;i++){
         pipe(pipes[i]);
     }
+    pid_t pgid = -1;
     for(int i=0;i<n;i++){
-        if(fork()==0){
+        pid_t pid=fork(); 
+        if(pid==0){
+                if(i==0)setpgid(0,0);
+                else setpgid(0,pgid);
                 bool input=false;
                 bool output=false;
                 bool append=false;
@@ -114,12 +118,17 @@ void pipeline(vector<string>v){
                 //exit(0);
             
         }
+        if(i==0)pgid=pid;
+        setpgid(pid,pgid);
     }
+    foreground_pid=pgid;
     for(int i=0;i<n-1;i++){
             close(pipes[i][0]);
             close(pipes[i][1]);
         }
     for(int i=0;i<n;i++){
-        wait(NULL);
+        int status;
+        waitpid(-pgid,&status,WUNTRACED);
     }
+    foreground_pid=-1;
 }

@@ -18,6 +18,7 @@ class Directory{
     string home=pwd();
 };
 extern Directory direc;
+extern pid_t foreground_pid;
 void systemCommand(vector<string>v);
 void historymain(vector<string>v);
 void writeHistory(string s);

@@ -69,6 +69,7 @@ void ioRedirection(vector<string>v){
 
     pid_t pid=fork();
     if(pid==0){
+        setpgid(0,0);
         if(input==true){
             dup2(in,STDIN_FILENO);
             close(in);
@@ -81,7 +82,11 @@ void ioRedirection(vector<string>v){
         perror("execvp failed");
         exit(1);
     }else{
-        wait(NULL);
+        setpgid(pid,pid); 
+        foreground_pid=pid;
+        int status;
+        waitpid(pid, &status, WUNTRACED);
+        foreground_pid=-1;
     }
     if(in!=-1)close(in);
     if(out!=-1)close(out);

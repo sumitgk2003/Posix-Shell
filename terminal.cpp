@@ -8,9 +8,10 @@
 #include<vector>
 #include<readline/readline.h>
 #include<readline/history.h>
+#include <signal.h>
 Directory direc;
 using namespace std;
-
+pid_t foreground_pid = -1;
 // void echo(vector<string>v){
 //     for(int i=1;i<v.size();i++){
 //         cout<<v[i]<<" ";
@@ -22,6 +23,17 @@ using namespace std;
 //     getcwd(cwd,1000);
 //     return cwd;
 // }
+void sigtstp_handler(int sig) {
+    if (foreground_pid>0) {
+        kill(-foreground_pid,SIGTSTP);
+    }
+}
+
+void sigint_handler(int sig) {
+    if (foreground_pid>0) {
+        kill(-foreground_pid,SIGINT);
+    }
+}
 
 string username(){
     uid_t uid=getuid();
@@ -61,6 +73,7 @@ vector<string> tokenizeCommands(string input){
 
 int main(){
     read_history(".hist");
+    rl_catch_signals = 0; 
     while(1){
         string user="\033[32m"+username()+"@"+hostname()+":";
         //cout<<"\033[32m"<<username()<<"@"<<hostname()<<":";
@@ -74,6 +87,8 @@ int main(){
             write_history(".hist");
             break;
         }
+        signal(SIGTSTP, sigtstp_handler);
+        signal(SIGINT, sigint_handler); 
         string input(input_cstr);
         //getline(cin,input);
         size_t pos=input.find_first_not_of(" \t");
