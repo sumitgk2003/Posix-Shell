@@ -70,6 +70,10 @@ int main(){
         //string input="";
         //cout<<"fkjsdh";
         char* input_cstr = readline(user.c_str()); 
+        if(input_cstr==NULL){
+            write_history(".hist");
+            break;
+        }
         string input(input_cstr);
         //getline(cin,input);
         size_t pos=input.find_first_not_of(" \t");
